@@ -4,7 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { AwsMsTsStack } from '../lib/aws-ms-ts-stack';
 
 const app = new cdk.App();
-new AwsMsTsStack(app, 'AwsMsTsStack', {
+new AwsMsTsStack(app, 'AwsMicroservicesTsStack', {
   description: 'This stack provide all resources to CRUD operations application Ecommerce',
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
