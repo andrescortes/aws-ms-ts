@@ -21,11 +21,6 @@ export class AwsMsTsStack extends cdk.Stack {
       billingMode: BillingMode.PAY_PER_REQUEST,
     });
 
-    const fn = new Function(this, 'MyFunctionTs', {
-      runtime: Runtime.NODEJS_14_X,
-      handler: 'index.handler',
-      code: Code.fromAsset(join(__dirname, 'lambda-handler')),
-    });
     const nodeJsProps: NodejsFunctionProps = {
       bundling: {
         externalModules: [
