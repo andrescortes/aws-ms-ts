@@ -42,7 +42,6 @@ export class AwsMsTsStack extends cdk.Stack {
     productTable.grantReadWriteData(productFunction);
 
     // product microservices api gateway
-
     const apiGateway = new LambdaRestApi(this, 'productApi', {
       restApiName: 'Product Service',
       handler: productFunction,
