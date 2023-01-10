@@ -12,6 +12,7 @@ export class AwsMsTsStack extends Stack {
     const database = new SwnDatabase(this, 'Database');
     const microservices = new SwnMicroservices(this, 'Microservices', {
       productTable: database.productTable,
+      basketTable: database.basketTable,
     });
 
     const apiGateway = new SwnApiGateway(this, 'ApiGateway', {
