@@ -75,19 +75,18 @@ export class SwnApiGateway extends Construct {
   // Ordering microservices api gateway
   // root name = order
   createOrderApi(orderMicroservice: IFunction) {
-    const apigw = new LambdaRestApi(this, 'orderApi', {
+    const apiGateway = new LambdaRestApi(this, 'orderApi', {
       restApiName: 'Order Service',
       handler: orderMicroservice,
       proxy: false
     });
-    const order = apigw.root.addResource('order');
+    const order = apiGateway.root.addResource('order');
     order.addMethod('GET'); //GET /order
 
     const singleOrder = order.addResource('{userName}');
     singleOrder.addMethod('GET');// GET /order/{userName}
     // expected request : xxx/order/swn?orderDate=timestamp
-    // ordering ms grap input and query parameters and filter to dynamodb
+    // ordering ms grape input and query parameters and filter to dynamodb
     return singleOrder;
   }
-
 }

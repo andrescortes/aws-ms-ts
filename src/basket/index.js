@@ -1,4 +1,4 @@
-import { Create, CreateBK, Delete, GetAll, GetById } from './services'
+import { Create, CreateBK, Delete, GetAll, GetById } from './services';
 
 exports.handler = async function (event) {
     console.log("Request: ", JSON.stringify(event, undefined, 2));
@@ -7,20 +7,20 @@ exports.handler = async function (event) {
         switch (event.httpMethod) {
             case "GET":
                 if (event.pathParameters != null) {
-                    body = await GetById(event.pathParameters.userName)
+                    body = await GetById(event.pathParameters.userName) // GET /basket/{userName}
                 } else {
                     body = await GetAll();
                 }
                 break;
             case "POST":
                 if (event.path == "/basket/checkout") {
-                    body = Create(event);
+                    body = CreateBK(event);// POST /basket/checkout
                 } else {
-                    body = await CreateBK(event);
+                    body = await Create(event);// POST /basket
                 }
                 break;
             case "DELETE":
-                body = await Delete(event.pathParameters.userName); // DELETE /product/{id}
+                body = await Delete(event.pathParameters.userName); // DELETE /basket/{id}
                 break;
             default:
                 throw new Error(`Unsupported route: "${event.httpMethod}"`);

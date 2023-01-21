@@ -50,16 +50,17 @@ export class SwnMicroservices extends Construct {
   private createBasketFunction(iTable: ITable): NodejsFunction {
     const nodeJsProps: NodejsFunctionProps = {
       bundling: {
-        externalModules: [
-          'awd-sdk',
-        ],
+        externalModules: ["awd-sdk"],
       },
       environment: {
-        PRIMARY_KEY: 'userName',
+        PRIMARY_KEY: "userName",
         DYNAMODB_TABLE_NAME: iTable.tableName,
+        EVENT_SOURCE: "com.swn.basket.checkoutbasket",
+        EVENT_DETAILTYPE: "CheckoutBasket",
+        EVENT_BUS_NAME: "SwnEventBus",
       },
       runtime: Runtime.NODEJS_14_X,
-    }
+    };
 
     const basketFunction = new NodejsFunction(this, 'basketLambdaFunctions', {
       entry: join(__dirname, `/../src/basket/index.js`),
@@ -95,4 +96,4 @@ export class SwnMicroservices extends Construct {
 
     return orderFunction;
   }
-}
+} 
