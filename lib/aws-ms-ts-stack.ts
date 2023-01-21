@@ -14,16 +14,18 @@ export class AwsMsTsStack extends Stack {
     const microservices = new SwnMicroservices(this, 'Microservices', {
       productTable: database.productTable,
       basketTable: database.basketTable,
+      orderTable: database.orderTable
     });
 
     const apiGateway = new SwnApiGateway(this, 'ApiGateway', {
       productMicroservice: microservices.productMicroservice,
       basketMicroservice: microservices.basketMicroservice,
+      orderMicroservice: microservices.orderingMicroservice
     });
 
     const eventbus = new SwnEventBus(this, 'EventBus', {
       publisherFunction: microservices.basketMicroservice,
-      targetFunction: ??
-    })
+      targetFunction: microservices.orderingMicroservice
+    });
   }
 }

@@ -4,7 +4,8 @@ import { IFunction } from 'aws-cdk-lib/aws-lambda';
 
 interface SwnApiGatewayProps {
   productMicroservice: IFunction,
-  basketMicroservice: IFunction
+  basketMicroservice: IFunction,
+  orderMicroservice: IFunction,
 }
 
 export class SwnApiGateway extends Construct {
@@ -16,6 +17,8 @@ export class SwnApiGateway extends Construct {
     this.createProductApi(props.productMicroservice);
     // Basket apiGateway
     this.createBasketApi(props.basketMicroservice);
+    // Basket apiGateway
+    this.createOrderApi(props.orderMicroservice);
   }
 
   private createProductApi(productMicroservice: IFunction) {
@@ -71,9 +74,20 @@ export class SwnApiGateway extends Construct {
 
   // Ordering microservices api gateway
   // root name = order
+  createOrderApi(orderMicroservice: IFunction) {
+    const apigw = new LambdaRestApi(this, 'orderApi', {
+      restApiName: 'Order Service',
+      handler: orderMicroservice,
+      proxy: false
+    });
+    const order = apigw.root.addResource('order');
+    order.addMethod('GET'); //GET /order
 
-  // GET /order
-  // GET /order/{userName}
-  // expected request : xxx/order/swn?orderDate=timestamp
-  // ordering ms grap input and query parameters and filter to dynamo db
+    const singleOrder = order.addResource('{userName}');
+    singleOrder.addMethod('GET');// GET /order/{userName}
+    // expected request : xxx/order/swn?orderDate=timestamp
+    // ordering ms grap input and query parameters and filter to dynamodb
+    return singleOrder;
+  }
+
 }
