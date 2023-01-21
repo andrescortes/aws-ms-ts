@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import { SwnDatabase } from './database';
 import { SwnMicroservices } from './microservice';
 import { SwnApiGateway } from './apigateway';
+import { SwnEventBus } from './eventbus';
 
 export class AwsMsTsStack extends Stack {
 
@@ -20,5 +21,9 @@ export class AwsMsTsStack extends Stack {
       basketMicroservice: microservices.basketMicroservice,
     });
 
+    const eventbus = new SwnEventBus(this, 'EventBus', {
+      publisherFunction: microservices.basketMicroservice,
+      targetFunction: ??
+    })
   }
 }
