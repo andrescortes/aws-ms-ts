@@ -24,8 +24,8 @@ export class AwsMicroservicesStack extends Stack {
     });
 
     const eventbus = new SwnEventBus(this, 'EventBus', {
-      publisherFuntion: microservices.basketMicroservice,
-      targetFuntion: microservices.orderingMicroservice
+      publisherFunction: microservices.basketMicroservice,
+      targetFunction: microservices.orderingMicroservice
     });
   }
 }

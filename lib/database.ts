@@ -69,5 +69,4 @@ export class SwnDatabase extends Construct {
     });
     return orderTable;
   }
-
 }
