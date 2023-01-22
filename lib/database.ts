@@ -3,55 +3,65 @@ import { AttributeType, BillingMode, ITable, Table } from 'aws-cdk-lib/aws-dynam
 import { Construct } from 'constructs';
 
 export class SwnDatabase extends Construct {
+
   public readonly productTable: ITable;
   public readonly basketTable: ITable;
   public readonly orderTable: ITable;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    //product table
     this.productTable = this.createProductTable();
+    //basket table
     this.basketTable = this.createBasketTable();
+    //order table
     this.orderTable = this.createOrderTable();
   }
 
+  // Product DynamoDb Table Creation
+  // product : PK: id -- name - description - imageFile - price - category
   private createProductTable(): ITable {
-    return new Table(this, 'product', {
+    const productTable = new Table(this, 'product', {
       partitionKey: {
         name: 'id',
-        type: AttributeType.STRING,
+        type: AttributeType.STRING
       },
       tableName: 'product',
       removalPolicy: RemovalPolicy.DESTROY,
-      billingMode: BillingMode.PAY_PER_REQUEST,
+      billingMode: BillingMode.PAY_PER_REQUEST
     });
+    return productTable;
   }
 
-  // basket table
-  // basket id-username - basketItemList[]
-  // basket : PK : userName -- items (SET-MAP object)
-  // item1 { quantity - color - price - productName}
-  // item2 { quantity - color - price - productName}
+  // Basket DynamoDb Table Creation
+  // basket : PK: userName -- items (SET-MAP object) 
+  // item1 - { quantity - color - price - productId - productName }
+  // item2 - { quantity - color - price - productId - productName }
   private createBasketTable(): ITable {
-    return new Table(this, 'basket', {
+    const basketTable = new Table(this, 'basket', {
       partitionKey: {
         name: 'userName',
         type: AttributeType.STRING,
       },
       tableName: 'basket',
       removalPolicy: RemovalPolicy.DESTROY,
-      billingMode: BillingMode.PAY_PER_REQUEST,
+      billingMode: BillingMode.PAY_PER_REQUEST
     });
+    return basketTable;
   }
 
-  createOrderTable(): ITable {
+  // Order DynamoDb Table Creation
+  // order : PK: userName - SK: orderDate -- totalPrice - firstName - lastName - email - address - paymentMethod - cardInfo
+  private createOrderTable(): ITable {
     const orderTable = new Table(this, 'order', {
       partitionKey: {
         name: 'userName',
-        type: AttributeType.STRING
+        type: AttributeType.STRING,
       },
       sortKey: {
         name: 'orderDate',
-        type: AttributeType.STRING
+        type: AttributeType.STRING,
       },
       tableName: 'order',
       removalPolicy: RemovalPolicy.DESTROY,
@@ -59,4 +69,5 @@ export class SwnDatabase extends Construct {
     });
     return orderTable;
   }
+
 }

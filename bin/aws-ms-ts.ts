@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { AwsMsTsStack } from '../lib/aws-ms-ts-stack';
+import { AwsMicroservicesStack  } from '../lib/aws-ms-ts-stack';
 
 const app = new cdk.App();
-new AwsMsTsStack(app, 'AwsMicroservicesTsStack', {
+new AwsMicroservicesStack (app, 'AwsMicroservicesStack ', {
   description: 'This stack provide all resources to CRUD operations application Ecommerce',
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
